@@ -38,9 +38,21 @@ function TodoList() {
     return () => {
       const newTodos = todos.filter((todo) => todo.id !== id);
 
-      console.log(newTodos);
-
       setTodos(newTodos);
+    };
+  }
+
+  function handleCheckbox(id) {
+    return () => {
+      const updatedTodos = todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, isCompleted: !todo.isCompleted };
+        }
+
+        return todo;
+      });
+
+      setTodos(updatedTodos);
     };
   }
 
@@ -67,7 +79,14 @@ function TodoList() {
 
       <ul className="w-[600px]">
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            deleteTodo={deleteTodo}
+            handleCheckbox={handleCheckbox}
+            todos={todos}
+            setTodos={setTodos}
+          />
         ))}
       </ul>
     </main>
